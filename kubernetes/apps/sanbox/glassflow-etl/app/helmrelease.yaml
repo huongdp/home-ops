@@ -1,0 +1,55 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: glassflow-etl
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: glassflow-etl
+      version: 0.5.13
+      sourceRef:
+        kind: HelmRepository
+        name: glassflow-etl
+  values:
+    postgresql:
+      enabled: true
+      persistence:
+        enabled: true
+        size: 1Gi
+        storageClass: openebs-hostpath
+    nats:
+      enabled: true
+      config:
+        cluster:
+          enabled: true
+          port: 6222
+          replicas: 3
+        jetstream:
+          enabled: true
+          memoryStore:
+            enabled: false
+            maxSize: 1Gi
+          fileStore:
+            enabled: true
+            dir: /data
+            pvc:
+              enabled: true
+              size: 1Gi
+              storageClassName: openebs-hostpath
+      container:
+        merge:
+          resources:
+            requests:
+              memory: "128Mi"
+              cpu: "100m"
+            limits:
+              memory: "1Gi"
+              cpu: "1000m"
+    ui:
+      enabled: true
+      replicas: 1
+      resources:
+        requests:
+          memory: "128Mi"
+          cpu: "100m"

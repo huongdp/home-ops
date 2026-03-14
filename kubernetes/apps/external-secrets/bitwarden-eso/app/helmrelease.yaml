@@ -1,0 +1,42 @@
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: HelmRepository
+metadata:
+  name: small-hack
+spec:
+  interval: 1h
+  url: https://small-hack.github.io/bitwarden-eso-provider
+
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/helm.toolkit.fluxcd.io/helmrelease_v2.json
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: bitwarden-eso
+spec:
+  interval: 1h
+  chart:
+    spec:
+      chart: bitwarden-eso-provider
+      version: 1.2.0
+      sourceRef:
+        kind: HelmRepository
+        name: small-hack
+  maxHistory: 2
+  install:
+    remediation:
+      retries: 3
+  upgrade:
+    cleanupOnFail: true
+    remediation:
+      retries: 3
+  uninstall:
+    keepHistory: false
+  # values:
+  #   bitwarden_eso_provider:
+  #     create_cluster_secret_store: false
+  #     auth:
+  #       existingSecret: "bitwarden-eso"
+  valuesFrom:
+    - kind: ConfigMap
+      name: bitwarden-eso-helm-values

@@ -1,0 +1,86 @@
+---
+apiVersion: cluster.redpanda.com/v1alpha2
+kind: Redpanda
+metadata:
+  name: redpanda-cluster
+  namespace: streaming
+spec:
+  chartRef: {}
+  clusterSpec:
+    config:
+      cluster:
+        data_transforms_enabled: true
+        core_balancing_continuous: false # enterprise feature
+        partition_autobalancing_mode: "node_add"  # enterprise feature (`continuous`)
+        enable_schema_id_validation: "none"
+        enable_shadow_linking: false
+        iceberg_enabled: false
+        # sasl_mechanisms: ["SCRAM"] # GSSAPI (Enterprise), SCRAM, OAUTHBEARER (Enterprise), PLAIN
+        # sasl_mechanisms_overrides: [{'listener':'kafka_listener', 'sasl_mechanisms':['SCRAM']}]
+    enterprise: # enterprise feature
+      license: ""
+      licenseSecretRef: {}
+    auditLogging: # enterprise feature
+      enabled: false
+    rackAwareness: # enterprise feature
+      enabled: false
+    # TLS configuration
+    tls:
+      enabled: false
+    # Listener configuration
+    listeners:
+      admin:
+        port: 9644
+      http:
+        port: 8082
+      kafka:
+        # authenticationMethod: sasl
+        port: 9092
+        external:
+          default:
+            advertisedPorts:
+              - 9094
+            nodePort: 31092 # (30000-32767)
+
+      schemaRegistry:
+        port: 8081
+    # Resource requirements
+    resources:
+      cpu:
+        cores: 250m
+      memory:
+
+        redpanda:
+          memory: 2Gi
+    # StatefulSet configuration
+    statefulset:
+      replicas: 3
+      podTemplate:
+        annotations:
+          k8s.v1.cni.cncf.io/networks: |
+            [{
+              "name":"redpanda",
+              "namespace": "kube-system"
+            }]
+    # Storage configuration
+    storage:
+      tiered: # enterprise feature
+        config:
+          cloud_storage_enabled: false
+          cloud_storage_enable_remote_read: false
+          cloud_storage_enable_remote_write: false
+      persistentVolume:
+        enabled: true
+        size: 5Gi
+        storageClass: openebs-hostpath
+    external:
+      enabled: true
+      service:
+        enabled: false
+      addresses:
+        - 10.10.40.160
+        - 10.10.40.161
+        - 10.10.40.162
+
+## Reference:
+# https://docs.redpanda.com/current/reference/properties/cluster-properties/

@@ -1,0 +1,31 @@
+---
+apiVersion: "k8s.cni.cncf.io/v1"
+kind: NetworkAttachmentDefinition
+metadata:
+  name: redpanda
+spec:
+  config: |-
+    {
+      "cniVersion": "1.1.0",
+      "name": "redpanda",
+      "plugins": [
+        {
+          "type": "macvlan",
+          "master": "bond0.40",
+          "mode": "bridge",
+          "ipam": {
+            "type": "whereabouts",
+            "range": "10.10.40.0/24",
+            "range_start": "10.10.40.160",
+            "range_end": "10.10.40.200",
+            "gateway": "10.10.40.1",
+            "routes": [
+              { "dst": "0.0.0.0/0", "gw": "10.10.40.1" }
+            ]
+          }
+        },
+        {
+          "type": "sbr"
+        }
+      ]
+    }

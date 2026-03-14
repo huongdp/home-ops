@@ -1,0 +1,32 @@
+---
+# yaml-language-server: $schema=https://raw.githubusercontent.com/fluxcd-community/flux2-schemas/refs/heads/main/gitrepository-source-v1.json
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: whereabouts-crd
+spec:
+  interval: 1h
+  url: https://github.com/k8snetworkplumbingwg/whereabouts
+  ref:
+    tag: v0.9.3
+  ignore: |
+    # exclude
+    /*
+    # include
+    !doc/crds/whereabouts.cni.cncf.io_ippools.yaml
+    !doc/crds/whereabouts.cni.cncf.io_overlappingrangeipreservations.yaml
+---
+# yaml-language-server: $schema=https://k8s-schemas.bjw-s.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: whereabouts-crd
+spec:
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: whereabouts-crd
+  wait: true
+  interval: 15m
+  retryInterval: 1m
+  timeout: 5m

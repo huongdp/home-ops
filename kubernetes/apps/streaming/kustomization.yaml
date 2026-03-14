@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: streaming
+
+components:
+  - ../../components/alerts
+
+resources:
+  - ./namespace.yaml
+  - ./clickhouse/ks.yaml
+  - ./emqx-operator/ks.yaml
+  - ./glassflow-etl/ks.yaml
+  - ./redpanda/ks.yaml

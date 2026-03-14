@@ -1,0 +1,33 @@
+apiVersion: cluster.redpanda.com/v1alpha2
+kind: Console
+metadata:
+  name: redpanda-cluster
+spec:
+  cluster:
+    clusterRef:
+      name: redpanda-cluster
+  secret: {}
+  config:
+    serde:
+      protobuf:
+        enabled: true
+        mappings:
+        - topicName: market.krx.ohlc
+          valueProtoType: Wrapper
+        - topicName: market.krx.marketindex
+          valueProtoType: Wrapper
+        - topicName: market.krx.stockinfo
+          valueProtoType: Wrapper
+        - topicName: market.krx.tick
+          valueProtoType: Wrapper
+        - topicName: market.krx.topprice
+          valueProtoType: Wrapper
+    schemaRegistry:
+      enabled: true
+      urls:
+      - http://redpanda-cluster-0.redpanda-cluster.streaming.svc.cluster.local:8081
+      - http://redpanda-cluster-1.redpanda-cluster.streaming.svc.cluster.local:8081
+      - http://redpanda-cluster-2.redpanda-cluster.streaming.svc.cluster.local:8081
+
+## Reference:
+## https://docs.redpanda.com/redpanda-connect/get-started/quickstarts/helm-chart/
