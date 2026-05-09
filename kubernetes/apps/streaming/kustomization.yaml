@@ -11,5 +11,4 @@ resources:
   - ./namespace.yaml
   - ./clickhouse/ks.yaml
   - ./emqx-operator/ks.yaml
-  - ./glassflow-etl/ks.yaml
   - ./redpanda/ks.yaml
