@@ -60,5 +60,3 @@ spec:
       type: LoadBalancer
       loadBalancerIP: 10.10.1.142
       externalTrafficPolicy: Cluster
-      # externalTrafficPolicy: Local
-      # internalTrafficPolicy: Cluster

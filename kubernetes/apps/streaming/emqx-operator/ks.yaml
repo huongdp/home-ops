@@ -11,7 +11,7 @@ spec:
     labels:
       app.kubernetes.io/name: *app
   dependsOn:
-    - name: bitwarden-store
+    - name: bitwarden-eso
       namespace: external-secrets
   path: ./kubernetes/apps/streaming/emqx-operator/app
   prune: true
@@ -37,7 +37,7 @@ spec:
       app.kubernetes.io/name: *app
   dependsOn:
     - name: emqx-operator
-    - name: bitwarden-store
+    - name: bitwarden-eso
       namespace: external-secrets
   path: ./kubernetes/apps/streaming/emqx-operator/cluster
   prune: true
