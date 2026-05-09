@@ -7,7 +7,7 @@ spec:
   chart:
     spec:
       chart: timeplus-proton
-      version: 0.5.13
+      version: 1.0.0
       sourceRef:
         kind: HelmRepository
         name: timeplus-proton
