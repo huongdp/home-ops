@@ -31,7 +31,7 @@ spec:
         defaultContainerOptions:
           image:
             repository: ghcr.io/k8snetworkplumbingwg/whereabouts
-            tag: v0.9.3
+            tag: v0.9.4
           resources:
             requests:
               cpu: 10m
