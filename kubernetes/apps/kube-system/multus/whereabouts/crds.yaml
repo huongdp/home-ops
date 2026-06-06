@@ -8,7 +8,7 @@ spec:
   interval: 1h
   url: https://github.com/k8snetworkplumbingwg/whereabouts
   ref:
-    tag: v0.9.3
+    tag: v0.9.4
   ignore: |
     # exclude
     /*
