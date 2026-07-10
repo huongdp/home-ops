@@ -33,5 +33,4 @@ resources:
   - ./sonarr/ks.yaml
   - ./tautulli/ks.yaml
   - ./thelounge/ks.yaml
-  - ./zigbee/ks.yaml
   - ./zwave/ks.yaml
