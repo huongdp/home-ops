@@ -16,7 +16,7 @@ spec:
           app:
             image:
               repository: clickhouse/clickhouse-server
-              tag: 26.7.3.19-alpine@sha256:80a5d78b746f7b70631908b3aff2249002e174c3f0520342d7c1f1abc0cd6751
+              tag: 26.8.2.7-alpine@sha256:8f1dd1ec7213410276c8e9aee11b25b458fe9d53eee13ad8cfdf7c79e36aad17
               pullPolicy: IfNotPresent
             env:
               CLICKHOUSE_HTTP_PORT: &httpPort 8123
